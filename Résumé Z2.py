@@ -87,7 +87,9 @@ class Calcul_Convexe(object) :
 
 
         if n >=2 :
-            stack = [t[0],t[1]] #stack est l'ensemble des sommets de l'enveloppe convexe : initialement un ensemble à deux éléments distinct a pour enveloppe convexe ces mêmes points
+            # stack est l'ensemble des sommets de l'enveloppe convexe.
+            # Les points extrémaux d'un ensemble à 2 points distincts sont ces deux points
+            stack = [t[0],t[1]] 
 
             for i in range(2,n):
 
@@ -325,6 +327,13 @@ class Calcul_Convexe(object) :
 
 
 
+    
+    
+    
+    
+    
+    
+    
 ## Un Environment S'Accompagnant D'Un Affichage
 
 class Environment_Z2 (object) :
@@ -510,16 +519,12 @@ class Environment_Z2 (object) :
         print('\n')
 
 
-    def play(self) :
-        """
-        Affiche le jeu, cliquer sur la case à vacciner
-        """
+        def play(self) :
 
 
         self.clear()
         self.start()
 
-        b = False
         tour = 0
 
 
@@ -540,6 +545,14 @@ class Environment_Z2 (object) :
         posbutton = plt.axes([0.81, 0.01, 0.1, 0.06])
         button = Button(posbutton, 'Save', color='.90', hovercolor='1')
         cid_butt = button.on_clicked(save_fig)
+
+        def leave(x) :
+            plt.close('all')
+
+
+        posbutton2 = plt.axes([0.70, 0.01, 0.1, 0.06])
+        button2 = Button(posbutton2, 'Leave', color='.90', hovercolor='1')
+        button2.on_clicked(leave)
 
 
 
@@ -587,19 +600,19 @@ class Environment_Z2 (object) :
         while not self.is_finished():
             tour+=1
 
-            pts = np.asarray(plt.ginput(self.nb_vaccin, timeout=-1))
 
-            while np.any(pts<0) :
-                pts = np.asarray(plt.ginput(self.nb_vaccin, timeout=-1))
-
-
-            if len(pts) != self.nb_vaccin :
-                b = True
-                break
 
             for k in range(self.nb_vaccin) :
+                pt = np.asarray(plt.ginput(1, timeout=-1))
 
-                x,y = int(pts[k][0]), int(pts[k][1])
+                if len(pt) <1 :
+                    break
+
+                while pt[0][0]<0 or pt[0][1]<0 :
+                    # si on clique dans la case du bas
+                    pt = np.asarray(plt.ginput(1, timeout=-1))
+
+                x,y = int(pt[0][0]), int(pt[0][1])
                 if self.grid[self.n-1-y, x] == 0 :
                     ax[0].add_artist(
                         patches.Rectangle([x,y], 1, 1,
@@ -608,9 +621,14 @@ class Environment_Z2 (object) :
                                         linewidth = 1)
                                         )
                     self.grid[self.n-1-y, x] = 2
+                    tellme(f'You can vaccinate {self.nb_vaccin-k-1} other persons')
 
 
-            tellme('An infection is spreading, save as many people as possible !')
+                if self.is_finished() :
+                    break
+
+
+
 
 
             plt.waitforbuttonpress()
@@ -625,25 +643,20 @@ class Environment_Z2 (object) :
                                         linewidth = 1))
 
 
-        if b :
-            plt.close('all')
         else :
 
-            ax[0].text(self.n/2,self.n/2,"Félicitation" if self.n_infected<=self.n*self.n/2 else "Dommage" , horizontalalignment = 'center', verticalalignment = 'center', color = 'yellow', fontsize = 60, alpha = 0.9, bbox=dict(facecolor='red', alpha=0.7,boxstyle = 'round4'))
+            ax[0].text(self.n/2,self.n/2,"Félicitations" if self.n_infected<=self.n*self.n/2 else "Dommage" , horizontalalignment = 'center', verticalalignment = 'center', color = 'yellow', fontsize = 60, alpha = 0.9, bbox=dict(facecolor='red', alpha=0.7,boxstyle = 'round4'))
+
 
             tellme(f'résolu en {tour} tours avec {self.n**2-self.n_infected} personnes sauvés')
 
 
-            plt.waitforbuttonpress()
             plt.waitforbuttonpress()
             plt.close('all')
 
 
 
     def jeu_aide_IA(self,IA) :
-        """
-        Affiche le jeu en faisant jouer une IA
-        """
 
         self.clear()
         self.start()
@@ -749,6 +762,11 @@ class Environment_Z2 (object) :
 
 
 
+        
+        
+        
+        
+        
 
 
 ## Les Différentes IAs
@@ -1203,66 +1221,3 @@ class IAs(object) :
 
 
 
-## Pour tester l'algorithme
-
-"""
-
-Créez un environement avec, par exemple, la commande :
-
-env = Environment_Z2(grid_length = 30, nb_init = 1, advantage = 3, n_infections_per_step = 1, proba = 0.5, nb_vaccin = 2)
-
-qui considère une grille de 30*30 avec un seul infécté initial (pas encore présent sur la grille) et qui laissera à l'initialisation le virus se propager 3 tours avant de pouvoir commencer à vacciner. On peut vacciner 2 personnes par tour puis l'infection se propage "une fois" avec une probabilité de 50%.
-
-Pour l'affichage du jeu avec possibilité d'utiliser une IA, tapez env.jeu_aide_IA(IA_Cvx) dans la console et executez.
-
-Les boutons, de droite à gauche, vous permettent de :
--vacciner une case suivant l'algorithme donné en entré,
--infecter pour un tour suivant la probabilité donné à la création de l'environment,
--sauvegarder l'image présente en face de vous (/!\ en sauvegarder une nouvelle écrasera la précédente, changez le nom de sauvegarde à la ligne 312 de Jeu_Z2 ou celui de l'image déjà téléchargée pour en ajouter une nouvelle),
--recommencer une nouvelle partie si celle en cours vous ennuie :) (pour quitter il suffit de fermer la page...)
-
-
-Voici un exemple de test de probabilité à faire pour tester l'efficacité de l'algorithme et comparer différentes politiques de choix :
-
-env = Environment_Z2(grid_length = 10, nb_init = 1, advantage = 3, n_infections_per_step = 1, proba = 0.5, nb_vaccin = 2)
-
-n_eval = 1000 ; n_vaccin = 2
-
-tot = 0
-mean_n_infect_ini = 0
-IA = Monte_Carlo_Graham # IA_Cvx_combinaison
-#IA_Cvx (/!\ à mettre avec IA(env.grid))
-# Pensez à les importer avant...
-
-for _ in range(n_eval) :
-    env.clear()
-    env.start()
-    mean_n_infect_ini += env.n_infected
-    while not env.is_finished() :
-        for _ in range(n_vaccin) :
-            (x,y) = IA(env)
-            env.step(x,y)
-        env.spread()
-    tot+=env.n_infected
-
-
-
-# Pour le pourcentage de personnes infectés :
-tot/n_eval/100
-# Quelques valeurs : grid_length=30 & proba=0.5 => 13% = 117 infectés
-# grid_length=8 & proba=1 => 34% = 22 infectés en moyenne
-
-
-#IA_Cvx_combinaison : grid_length=8 & proba=0.5 =>
-tot/n_eval/64 -> 0.30234375 -> 19.35 infectés en moyenne
-grid_length = 10 => 0.26778 infectés
-
-# Monte_Carlo_Graham : grid_length=8 & proba=0.5 =>
-tot/n_eval/64 -> 0.3078125 -> 19.7 infectés en moyenne
-0.27226 pour grid_length = 10
-
-# Pour le nombre d'inféctés initiaux
-mean_n_infect_ini/n_eval
-# idem => 10 infectés initiaux
-
-"""
