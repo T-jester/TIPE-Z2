@@ -1,6 +1,7 @@
 # TIPE-2022
 Tirte : Modélisation et étude de la propagation d'une épidémie sur un graphe et application à la recherche de stratégie vaccinale.
 
+Subsection : étude d'un cas simplifié, la propagation sur Z2
 
 
 
