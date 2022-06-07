@@ -79,3 +79,23 @@ Pour le nombre d'inféctés initiaux
 mean_n_infect_ini/n_eval
 idem => 10 infectés initiaux
 
+
+
+
+
+
+# Autre approche :
+En suivant les travaux suivants :
+https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning
+
+Et en adaptant le code fournit ici :
+https://keras.io/examples/rl/deep_q_network_breakout/
+
+On devrait obtenir des résultats satisfaisants, j'ai pour l'instant 20% de réussite pour 12H d'entraînement.
+
+
+
+
+
+
+
