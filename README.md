@@ -24,7 +24,7 @@ Les boutons, de droite à gauche, vous permettent de :
 -recommencer une nouvelle partie si celle en cours vous ennuie :) (pour quitter il suffit de fermer la page...)
 
 
-### Pour le jeu solo, problème dans la fermeture du fichier... fonctionne si on attend jusqu'à la fin mais si par malheur on ferme la fenêtre avant il faut redémarer la consolle ;(
+### Pour le jeu solo, il ne faut pas fermer le fichier avant la fin... sinon il faut redémarer la consolle ;(
 
 
 
