@@ -1,37 +1,77 @@
-## Welcome to GitHub Pages
+# Modélisation et étude de la propagation d'une épidémie sur un graphe et application à la recherche de stratégie optimale.
 
-You can use the [editor on GitHub](https://github.com/T-jester/TIPE-Z2/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Ce sujet s'inscrit dans le thème santé-prévention a été fait conjointement avec Adrien LEDOUX et Pablo MADAULE.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Pour notre TIPE, nous avons décidé de nous intéresser aux stratégies permettant de limiter ou, si possible, arêter la propagation d'un virus. Pour cela nous avons exploré différentes modélisations. Celle étudiée ici est la plus simplifiée et s'intéresse à un damier.
 
-### Markdown
+Pour voir la modélisation plus réaliste sur un graphe cliquez sur ce [lien](https://github.com/T-jester/TIPE-Graphe)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+## Présentation de la modélisation :
 
-# Header 1
-## Header 2
-### Header 3
+- On considère une grille n\*n où chaque case représente un individu pouvant être infecté, vacciné ou susceptible.
+- Les intéractions entre les cases se font suivant le [voisinage de Von Neumann](https://fr.wikipedia.org/wiki/Voisinage_de_von_Neumann).
+- À chaque tour le virus se propage des infectés vers des individus susceptibles avoisinants avec une probabilité p fixée et uniforme.
+- À chaque tour le joueur peut vacciner K individus susceptibles, on supposera un caractère parfait de la vaccination (une fois vacciné on ne peut plus jamais être infecté)
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+Voici un exemple de partie type : ![partie type](https://github.com/T-jester/TIPE-Z2/blob/main/Partie%20Type%20(4%20%C3%A9tapes).png)
 
-**Bold** and _Italic_ and `Code` text
+## Première stratégie
 
-[Link](url) and ![Image](src)
-```
+L'idée de cette première stratégie est d'encercler le cluster le plus rapidement possible. 
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+Nous avons réussi avec mon collègue Adrien à prouver que l'[enveloppe convexe d'un connexe est minimale pour le périmètre](https://github.com/T-jester/TIPE-Z2/blob/main/Th%C3%A9or%C3%A8me%20Ledoux.pdf). Cela combiné avec le fait que le cluster se propage presque sûrement de la forme d'une boule amène cette stratégie à être considérée comme quasi-optimale.
 
-### Jekyll Themes
+Comme le laisse entendre l'énoncé, nous avons eu besoin d'introduire une enveloppe convexe sur \mathbb{Z}^2, pour cela il fallait d'abord amener un segment. Pour cela il nous avons utilisé la définition du [segment de Bresenham](https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_segment_de_Bresenham).
+![Segment de Bresenham](https://github.com/T-jester/TIPE-Z2/blob/main/my_segment.jpg)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/T-jester/TIPE-Z2/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Finalement grâce à l'[algorithme de Graham](https://fr.wikipedia.org/wiki/Parcours_de_Graham) qui permet de trouver les points extrémaux d'un ensemble de point (qui forment de manière unique l'ensveloppe convexe grâce au théorème de [Krein Milman](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Krein-Milman) (qui s'adapte aussi sur \mathbb{Z}^2).
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+On va donc tenter de construire le lacet formant l’enveloppe convexe des infectés. Pour éviter des soucis de porosité, on choisi de construire un contour connexe. On se retrouve donc à devoir choisir entre 2 points et pour choisir on considère les différentes politiques suivantes :
+
+## Différentes politiques
+
+- La stratégie **Barycentre** consiste à vacciner le point le plus proche du barycentre des infectés, c'est à dire le point l'individu le "plus à risque".
+- La stratégie **Monte Carlo** consiste à estimer l'espérance du nombre d'inféctés en fonction des deux choix possibles et choisir celui avec la plus faible.
+- On peut aussi combiner les deux. La deuxième est meilleure mais avec une plus grande compléxité donc on peut la faire intervenir "vers la fin" de la partie.
+
+
+
+![Exemple d'application de la stratégie Barycentre](https://github.com/T-jester/TIPE-Z2/blob/main/Pr%C3%A9sentation%20de%20la%20m%C3%A9thode%20Barycentre.jpg)
+
+
+## Résultats
+
+Pourcentage de personnes sauvées pour p=0.5, un infecté initial qui se propage seul pendant 3 tours et 2 vaccins par tour :
+
+- La stratégie **Barycentre** :
+  - Pour une grille 30\*30 : 90%
+  - Pour une grille 10\*10 : 81% 
+- La stratégie **Monte Carlo** :
+  - Pour une grille 10\*10 : 85%
+- La stratégie vaccinant un susceptible **aléatoire** :
+  - Pour une grille 30\*30 : 10%
+
+## Autre méthode 
+
+J'ai aussi voulu tenter une approche avec du deep-learning. Cependant une approche classique n'aboutissait pas. Je me suis donc inspiré d'un [algorithme proposé par Volodymyr Mnih et al.](https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning) ayant gagné contre de nombreux jeux d'Atari.
+
+Même après adaptétion au problème posé, les résultats ne se sont pas encore montrés. L'une des raisons étant que je l'ai entraîné pendant "seulement" 12h ce qui est bien insignifiant comparé aux 38 jours conseillés par le papier. Aux dernières nouvelles l'algorithme parvenait à sauver 20% de la population d'une grille 30\*30 (ce qui reste 2 fois plus que la stratégie aléatoire).
+
+
+## Conclusion
+
+Sur cette modélisation (assez peu réaliste) nous avons pu trouver une stratégie quasi-optimale et très efficace. Cependant le faible réalisme reste un gros soucis. Nous avons donc proposé [une autre modélisation](https://github.com/T-jester/TIPE-Graphe) plus proche sur un graphe connexe.
+
+
+
+
+
+Nhésitez pas à aller voir mes autre projets sur [mon GitHub](https://github.com/T-jester) :)
+
+
+
+
+
