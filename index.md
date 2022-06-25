@@ -44,7 +44,7 @@ On va donc tenter de construire le lacet formant l’enveloppe convexe des infec
 
 
 
-![Exemple d'application de la stratégie Barycentre](/TIPE-Z2/docs/assets/Bary_Prez.jpg)
+![Exemple d'application de la stratégie Barycentre](https://github.com/T-jester/TIPE-Z2/blob/main/docs/assets/Bary_Prez.jpg)
 
 
 ## Résultats
