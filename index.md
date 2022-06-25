@@ -15,6 +15,7 @@ Pour voir la modélisation plus réaliste sur un graphe cliquez sur ce [lien](ht
 - À chaque tour le joueur peut vacciner K individus susceptibles, on supposera un caractère parfait de la vaccination (une fois vacciné on ne peut plus jamais être infecté)
 
 
+
 Voici un exemple de partie type : ![partie type](https://github.com/T-jester/TIPE-Z2/blob/main/Partie%20Type%20(4%20%C3%A9tapes).png)
 
 ## Première stratégie
@@ -24,6 +25,9 @@ L'idée de cette première stratégie est d'encercler le cluster le plus rapidem
 Nous avons réussi avec mon collègue Adrien à prouver que l'[enveloppe convexe d'un connexe est minimale pour le périmètre](https://github.com/T-jester/TIPE-Z2/blob/main/Th%C3%A9or%C3%A8me%20Ledoux.pdf). Cela combiné avec le fait que le cluster se propage presque sûrement de la forme d'une boule amène cette stratégie à être considérée comme quasi-optimale.
 
 Comme le laisse entendre l'énoncé, nous avons eu besoin d'introduire une enveloppe convexe sur \mathbb{Z}^2, pour cela il fallait d'abord amener un segment. Pour cela il nous avons utilisé la définition du [segment de Bresenham](https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_segment_de_Bresenham).
+
+
+
 ![Segment de Bresenham](https://github.com/T-jester/TIPE-Z2/blob/main/my_segment.jpg)
 
 Finalement grâce à l'[algorithme de Graham](https://fr.wikipedia.org/wiki/Parcours_de_Graham) qui permet de trouver les points extrémaux d'un ensemble de point (qui forment de manière unique l'ensveloppe convexe grâce au théorème de [Krein Milman](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Krein-Milman) (qui s'adapte aussi sur \mathbb{Z}^2).
@@ -36,6 +40,7 @@ On va donc tenter de construire le lacet formant l’enveloppe convexe des infec
 - La stratégie **Barycentre** consiste à vacciner le point le plus proche du barycentre des infectés, c'est à dire le point l'individu le "plus à risque".
 - La stratégie **Monte Carlo** consiste à estimer l'espérance du nombre d'inféctés en fonction des deux choix possibles et choisir celui avec la plus faible.
 - On peut aussi combiner les deux. La deuxième est meilleure mais avec une plus grande compléxité donc on peut la faire intervenir "vers la fin" de la partie.
+
 
 
 
