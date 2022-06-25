@@ -16,7 +16,7 @@ Pour voir la modélisation plus réaliste sur un graphe cliquez sur ce [lien](ht
 
 
 
-Voici un exemple de partie type : ![partie type](/TIPE-Z2/blob/main/Partie Type (4 étapes).png)
+Voici un exemple de partie type : ![partie type](/TIPE-Z2/main/Partie_Type.png)
 
 ## Première stratégie
 
@@ -28,7 +28,7 @@ Comme le laisse entendre l'énoncé, nous avons eu besoin d'introduire une envel
 
 
 
-![Segment de Bresenham](https://github.com/T-jester/TIPE-Z2/blob/main/my_segment.jpg)
+![Segment de Bresenham](/TIPE-Z2/main/my_segment.jpg)
 
 Finalement grâce à l'[algorithme de Graham](https://fr.wikipedia.org/wiki/Parcours_de_Graham) qui permet de trouver les points extrémaux d'un ensemble de point (qui forment de manière unique l'ensveloppe convexe grâce au théorème de [Krein Milman](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Krein-Milman) (qui s'adapte aussi sur Z^2).
 
@@ -44,7 +44,7 @@ On va donc tenter de construire le lacet formant l’enveloppe convexe des infec
 
 
 
-![Exemple d'application de la stratégie Barycentre](https://github.com/T-jester/TIPE-Z2/blob/main/Pr%C3%A9sentation%20de%20la%20m%C3%A9thode%20Barycentre.jpg)
+![Exemple d'application de la stratégie Barycentre](/TIPE-Z2/Bary_Prez.jpg)
 
 
 ## Résultats
