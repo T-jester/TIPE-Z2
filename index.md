@@ -16,7 +16,7 @@ Pour voir la modélisation plus réaliste sur un graphe cliquez sur ce [lien](ht
 
 
 
-Voici un exemple de partie type : ![partie type](blob/main/docs/assets/Partie_Type.png)
+Voici un exemple de partie type : ![partie type](TIPE_Z2/blob/main/docs/assets/Partie_Type.png)
 
 ## Première stratégie
 
