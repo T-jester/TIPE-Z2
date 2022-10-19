@@ -16,7 +16,10 @@ Pour voir la modélisation plus réaliste sur un graphe cliquez sur ce [lien](ht
 
 
 
-Voici un exemple de partie type : ![partie type](https://github.com/T-jester/TIPE-Z2/blob/main/docs/assets/Partie_Type.png)
+Voici un exemple de partie type : 
+<p align="right">
+<img src="https://github.com/T-jester/TIPE-Z2/blob/main/docs/assets/Partie_Type.png " width="1400px "/>
+</p>
 
 ## Première stratégie
 
